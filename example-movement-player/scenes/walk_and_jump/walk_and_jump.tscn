@@ -1,6 +1,209 @@
-[gd_scene load_steps=2 format=3 uid="uid://3u3jeg7jc50l"]
+[gd_scene load_steps=15 format=3 uid="uid://3u3jeg7jc50l"]
 
 [ext_resource type="Script" path="res://scenes/walk_and_jump/walk_and_jump.gd" id="1_ji6j3"]
+[ext_resource type="Script" path="res://scenes/walk_and_jump/Player.gd" id="2_7acom"]
+[ext_resource type="Script" path="res://scenes/walk_and_jump/StaticPlatforms.gd" id="3_fauhl"]
+[ext_resource type="Script" path="res://scenes/walk_and_jump/MovablePlatforms.gd" id="4_ancv2"]
+
+[sub_resource type="Animation" id="Animation_wu6nv"]
+resource_name = "PlayerColorAnimation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerCollisionShape/Polygon2D:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.250854, 0.509194, 0.583104, 1), Color(0.416289, 0.450156, 0.66677, 1), Color(0.674806, 0.360804, 0.39011, 1), Color(0.250854, 0.509194, 0.583104, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2yult"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerCollisionShape/Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.250854, 0.509194, 0.583104, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rfafr"]
+_data = {
+"PlayerColorAnimation": SubResource("Animation_wu6nv"),
+"RESET": SubResource("Animation_2yult")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kjj2l"]
+size = Vector2(962.101, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhmk4"]
+size = Vector2(130, 104.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4krqp"]
+size = Vector2(289, 106.75)
+
+[sub_resource type="Animation" id="Animation_ul71g"]
+resource_name = "position_loop"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 1.8, 2, 2.5, 3, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(2.08165e-12, -250), Vector2(2.08165e-12, -350), Vector2(2.08165e-12, -375), Vector2(50, -375), Vector2(100, -350), Vector2(150, -300), Vector2(200, -150), Vector2(150, -75), Vector2(2.08165e-12, 2.08165e-12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlatformMovingCollision/PlatformMovingPolygon:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.8, 4.1, 4.3, 4.5, 4.7, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.802672, 0.306833, 0.348697, 1), Color(0.689159, 0.237858, 0.280893, 1), Color(0.541763, 0.172351, 0.209472, 1), Color(0.457626, 0.139087, 0.171414, 1), Color(0.599203, 0.197551, 0.237088, 1), Color(0.497709, 0.155539, 0.189943, 1), Color(0.802672, 0.306833, 0.348697, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ysd50"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlatformMovingCollision/PlatformMovingPolygon:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.689159, 0.237858, 0.280893, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_52dbc"]
+_data = {
+"RESET": SubResource("Animation_ysd50"),
+"position_loop": SubResource("Animation_ul71g")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p6q71"]
+size = Vector2(216.25, 31)
 
 [node name="WalkAndJump" type="Node2D"]
 script = ExtResource("1_ji6j3")
+metadata/_edit_vertical_guides_ = [261.0, 700.0, 830.0, 550.0, 890.0, 150.0]
+metadata/_edit_horizontal_guides_ = [111.0, 500.0]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(149, 488)
+slide_on_ceiling = false
+floor_max_angle = 1.13446
+floor_snap_length = 2.0
+platform_on_leave = 1
+platform_floor_layers = 4294901761
+platform_wall_layers = 2
+script = ExtResource("2_7acom")
+
+[node name="PlayerAnimation" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_rfafr")
+}
+
+[node name="PlayerCollisionShape" type="CollisionPolygon2D" parent="Player"]
+position = Vector2(-1, -1)
+polygon = PackedVector2Array(-20, 2.08165e-12, 20, 2.08165e-12, 20, -30, 2.08165e-12, -45, -20, -30)
+
+[node name="Polygon2D" type="Polygon2D" parent="Player/PlayerCollisionShape"]
+position = Vector2(1, 1)
+color = Color(0.250854, 0.509194, 0.583104, 1)
+polygon = PackedVector2Array(-21, -1, -21, -31, -1, -46, 19, -31, 19, -1)
+
+[node name="PlayerCamera" type="Camera2D" parent="Player"]
+position = Vector2(-4, 2)
+editor_draw_drag_margin = true
+
+[node name="StaticPlatforms" type="CanvasGroup" parent="."]
+script = ExtResource("3_fauhl")
+
+[node name="FloorMainArea" type="RigidBody2D" parent="StaticPlatforms"]
+
+[node name="FloorMainCollision" type="CollisionShape2D" parent="StaticPlatforms/FloorMainArea"]
+position = Vector2(582, 559)
+shape = SubResource("RectangleShape2D_kjj2l")
+debug_color = Color(0, 0.639216, 0.364706, 0.423529)
+
+[node name="FloorMainPolygon" type="Polygon2D" parent="StaticPlatforms/FloorMainArea/FloorMainCollision"]
+position = Vector2(-101, 6)
+color = Color(0.25326, 0.473152, 0.338645, 1)
+polygon = PackedVector2Array(102, 18, 0, 22, -139, 14, -252, 22, -336, 18, -380, 25, -380, -37, 583, -36, 583, 24, 491, 12, 374, 19, 307, 16, 216, 21)
+
+[node name="PlatformFloatingA-Area" type="RigidBody2D" parent="StaticPlatforms"]
+
+[node name="PlatformFloatingA-Collision" type="CollisionShape2D" parent="StaticPlatforms/PlatformFloatingA-Area"]
+position = Vector2(765, 163.25)
+shape = SubResource("RectangleShape2D_mhmk4")
+debug_color = Color(4.14079e-06, 0.564434, 0.869479, 0.42)
+
+[node name="PlatformFloatingA-Polygon" type="Polygon2D" parent="StaticPlatforms/PlatformFloatingA-Area/PlatformFloatingA-Collision"]
+position = Vector2(-765, -163.25)
+color = Color(0.344226, 0.681904, 0.925161, 1)
+polygon = PackedVector2Array(700, 111, 830, 111, 830, 216, 700, 216)
+
+[node name="PlatformFloatingB-Area" type="RigidBody2D" parent="StaticPlatforms"]
+
+[node name="PlatformFloatingB-Collision" type="CollisionShape2D" parent="StaticPlatforms/PlatformFloatingB-Area"]
+position = Vector2(405.5, 164.375)
+shape = SubResource("RectangleShape2D_4krqp")
+debug_color = Color(0.417969, 0.462297, 1, 0.42)
+
+[node name="PlatformFloatingB-Polygon" type="Polygon2D" parent="StaticPlatforms/PlatformFloatingB-Area/PlatformFloatingB-Collision"]
+color = Color(0.341176, 0.678431, 0.921569, 1)
+polygon = PackedVector2Array(-144.5, -53.375, 144.5, -53.375, 144.5, 54.625, -144.5, 54.625)
+
+[node name="MovablePlatforms" type="CanvasGroup" parent="."]
+position = Vector2(982, 499)
+script = ExtResource("4_ancv2")
+
+[node name="PlatformMovingArea" type="RigidBody2D" parent="MovablePlatforms"]
+freeze = true
+freeze_mode = 1
+
+[node name="PlatformMovingAnimation" type="AnimationPlayer" parent="MovablePlatforms/PlatformMovingArea"]
+libraries = {
+"": SubResource("AnimationLibrary_52dbc")
+}
+
+[node name="PlatformMovingCollision" type="CollisionShape2D" parent="MovablePlatforms/PlatformMovingArea"]
+shape = SubResource("RectangleShape2D_p6q71")
+debug_color = Color(0.80002, 0.384, 0.462163, 0.42)
+
+[node name="PlatformMovingPolygon" type="Polygon2D" parent="MovablePlatforms/PlatformMovingArea/PlatformMovingCollision"]
+color = Color(0.689159, 0.237858, 0.280893, 1)
+polygon = PackedVector2Array(-108.125, -16, 108.875, -16, 108.875, 15, -108.125, 15)
