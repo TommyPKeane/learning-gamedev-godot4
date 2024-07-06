@@ -23,9 +23,9 @@ Unless explicitly stated, we probably haven't tried exporting any of these scene
 1. Import this Project into Godot, by navigating to the `example-movement-play/project.godot` file.
 1. Once opened, you may or may not see the desired Scene already opened.
 	1. If you see this, then a Scene is already opened, so you should navigate to the `Scene` menu and choose `Close Scene` (the last option, and on macOS this is tied to `COMMAND`+`SHIFT`+`W`) before continuing to next steps:
-		![Godot view with a previously opened Scene](../_docs-assets/scene-openandrun-01a.png)
+		![Godot view with a previously opened Scene](../_docs-assets/scene-openandrun-01b.png)
 	1. If you see this, then no scene is open, so you can continue to the next steps:
-		![Godot view without any open Scenes](../_docs-assets/scene-openandrun-01b.png)
+		![Godot view without any open Scenes](../_docs-assets/scene-openandrun-01a.png)
 1. In the `FileSystem` section on the bottom-left, you should navigate to expand the `scenes/` directory to the folder with the Scene you want to open.
 1. You can now either double-click the `.tscn` file (the Scene file) that has the same name as the directory (indicating it is the "main" scene for that directory), or you can right-click the `.tscn` file and choose `Open Scene`:
 	![Right-click menu for `.tscn` file](../_docs-assets/scene-openandrun-02.png)
