@@ -1,4 +1,4 @@
-# tommy teaches tommy: Godot (v4.0) Game Development
+# tommy teaches tommy: Godot (v4.x) Game Development
 
 __tommy teaches tommy__ (_and anyone else who cares to read all this_) about software development and coding with GDScript and how to create scenes and videogame functionality with Godot Engine (v4.x).
 
