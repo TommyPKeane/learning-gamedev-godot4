@@ -19,7 +19,11 @@ Console gaming requires licensing and access to the development SDKs for the con
 <a id="developer-setup"></a>
 ## Developer Setup
 
-See the [`CONTRIBUTING.md`](./CONTRIBUTING.md) file for details on how to setup your system to use this code and/or how to be able to update or modify the code for your own purposes.
+See the [`CONTRIBUTING.md`](./.github/CONTRIBUTING.md) file for details on how to setup your system to use this code and/or how to be able to update or modify the code for your own purposes.
+
+To test-out or view any of the apps or Projects, make sure you go install Godot Engine v4.x: https://godotengine.org/
+
+> ⚠️ _If Godot has updated to v5.x, these Projects may no longer work, or you may have to import them and have them irreversibly updated to be compatible with v5.x before you can run them._
 
 <a id="testing"></a>
 ## Testing
