@@ -37,7 +37,7 @@ _"What's in a name?"_
 
 You can see a rambly explanation [here at my personal website](https://tommypkeane.com/about-tommy/tommy-teaches-tommy.html); but, in short:
 
-I'm just trying to say that I'm writing out what I think is helpful/interesting to me, and I'm sharing it in case it's helpful to anyone else, but please know that I'm ___not___ trying to talk _down_ to anyone :smile: (except maybe myself :ghost:).
+I'm just trying to say that I'm writing out what I think is helpful/interesting to me, and I'm sharing it in case it's helpful to anyone else, but please know that I'm ___not___ trying to talk _down_ to anyone :smile: (except maybe myself :ghost:). I'll also probably use the "academic we" in the docs, and spell things like a jerk ... but you get what you paid for, and this is free. So, enjoy! 😀
 
 <a id="license-copyright"></a>
 ## License (Copyright)
