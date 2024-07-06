@@ -12,7 +12,7 @@ Unless explicitly stated, we probably haven't tried exporting any of these scene
 
 - [How to Run a Scene](#how-to-run-a-scene)
 - [Scenes and their Current State](#scenes-and-their-current-state)
-- [`walk_and_jump`: Player Walking and Jumping with Gravity](#walk_and_jump-player-walking-and-jumping-with-gravity)
+	- [`walk_and_jump`: Player Walking and Jumping with Gravity](#walk_and_jump-player-walking-and-jumping-with-gravity)
 - [References](#references)
 
 <!-- /MarkdownTOC -->
@@ -43,7 +43,7 @@ Unless explicitly stated, we probably haven't tried exporting any of these scene
 Each subdirectory in the `scenes/` folder is a separate, isolated Godot "Scene", that is meant to be fully interactive and playable, as a part of this overall Project.
 
 <a id="walk_and_jump-player-walking-and-jumping-with-gravity"></a>
-## `walk_and_jump`: Player Walking and Jumping with Gravity
+### `walk_and_jump`: Player Walking and Jumping with Gravity
 
 > ℹ️ _See the local [README.md](./scenes/walk_and_jump/README.md) file for more in-depth details._
 
