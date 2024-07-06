@@ -8,6 +8,12 @@ Console gaming requires licensing and access to the development SDKs for the con
 
 <!-- MarkdownTOC -->
 
+- [Developer Setup](#developer-setup)
+- [Testing](#testing)
+- [What's this "tommy teaches tommy" thing all about?](#whats-this-tommy-teaches-tommy-thing-all-about)
+- [License \(Copyright\)](#license-copyright)
+- [References](#references)
+
 <!-- /MarkdownTOC -->
 
 <a id="developer-setup"></a>
@@ -42,3 +48,4 @@ See the [LICENSE](./LICENSE) file.
 - https://godotengine.org/
 - https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html
 - https://www.blender.org/
+- https://krita.org/en/
