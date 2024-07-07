@@ -17,6 +17,14 @@ func _ready() -> void:
 	$Player/PlayerCamera.make_current()
 	return
 
+func check_if_outofbounds_and_reset() -> void:
+	if $Player.global_position.y > 0:
+		get_tree().reload_current_scene()
+	else:
+		pass
+	return
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta) -> void:
+func _process(_delta) -> void:
+	check_if_outofbounds_and_reset()
 	return

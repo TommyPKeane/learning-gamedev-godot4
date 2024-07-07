@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 var is_falling: bool = false
-var on_wall
+var is_on_wall: bool = false
+var is_reseting: bool = false
 
 const FALL_TILT_SPEED: float = 25.0
 const WALK_SPEED: float = 250.0
@@ -13,7 +14,7 @@ var DEFAULT_GRAVITY = ProjectSettings.get_setting("physics/2d/default_gravity")
 var GRAVITY
 
 func _ready() -> void:
-	#$PlayerAnimation.autoplay = "PlayerColorAnimation"
+	$PlayerAnimation.play("PlayerColorAnimation")
 	#GRAVITY = DEFAULT_GRAVITY
 	GRAVITY = 980
 	is_falling = not is_on_floor()
@@ -21,56 +22,81 @@ func _ready() -> void:
 
 
 func _physics_process(delta) -> void:
+	$PlayerCamera/PlayerPositionLabel.text = (
+		"""Position: (%0.2f, %0.2f)
+Velocity: (%0.2f, %0.2f)""" % [
+			position.x,
+			position.y,
+			velocity.x,
+			velocity.y,
+		]
+	)
+	
 	is_falling = not is_on_floor()
 	velocity.y += delta * GRAVITY
 	
 	if is_on_floor():
-		if Input.is_action_pressed("move_left"):
-			velocity.x = -WALK_SPEED
-		elif Input.is_action_pressed("move_right"):
-			velocity.x =  WALK_SPEED
+		$PlayerCamera/PlayerPositionLabel.position.y = -85
+		
+		if rotation == 0:
+			is_reseting = false
 		else:
-			velocity.x = 0
+			pass
+
+		if is_reseting:
+			pass
+		else:
+			if Input.is_action_pressed("move_down"):
+				$PlayerCollisionShape.scale.x = 1.0
+				$PlayerCollisionShape.scale.y = 0.65
+			elif Input.is_action_pressed("move_up"):
+				$PlayerCollisionShape.scale.x = 0.65
+				$PlayerCollisionShape.scale.y = 1.25
+			else:
+				$PlayerCollisionShape.scale.x = 1.0
+				$PlayerCollisionShape.scale.y = 1.0
+			
+			if Input.is_action_pressed("move_left"):
+				velocity.x = -WALK_SPEED
+			elif Input.is_action_pressed("move_right"):
+				velocity.x = WALK_SPEED
+			else:
+				velocity.x = 0
 			
 		if Input.is_action_pressed("jump"):
-			velocity.y += JUMPFORCE
-			
-			if Input.is_action_pressed("move_up"):
-				velocity.y *= 1.5  # Super Jump
-			elif Input.is_action_pressed("move_down"):
-				velocity.y *= 0.5  # Crouch Jump
+			if rotation == 0:
+				velocity.y += JUMPFORCE
+				if Input.is_action_pressed("move_up"):
+					velocity.y *= 1.5  # Super Jump
+				elif Input.is_action_pressed("move_down"):
+					velocity.y *= 0.5  # Crouch Jump
+				else:
+					pass
 			else:
-				pass
+				is_reseting = true
+				velocity.x = 0.0
+				velocity.y = 0.0
+				rotation = 0.0
 		else:
 			pass
 	else:
-		if Input.is_action_pressed("move_left"):
-			velocity.x = -FALL_TILT_SPEED
-		elif Input.is_action_pressed("move_right"):
-			velocity.x =  FALL_TILT_SPEED
+		$PlayerCamera/PlayerPositionLabel.position.y = 0.0
+		
+		if is_reseting:
+			pass
 		else:
-			velocity.x = 0
+			if Input.is_action_pressed("move_left"):
+				velocity.x -= FALL_TILT_SPEED * delta
+				rotate(-PI/128)
+			elif Input.is_action_pressed("move_right"):
+				velocity.x += FALL_TILT_SPEED * delta
+				rotate(PI/128)
+			else:
+				velocity.x = 0
 
 	# "move_and_slide" already takes delta time into account.
 	move_and_slide()
 	return
 
 func _process(_delta) -> void:
-	if is_falling:
-		if Input.is_action_pressed("move_left"):
-			rotate(-PI/128)
-		elif Input.is_action_pressed("move_right"):
-			rotate(PI/128)
-		else:
-			rotation = 0.0
-	else:
-		if Input.is_action_pressed("move_down"):
-			scale.x = 1.0
-			scale.y = 0.65
-		elif Input.is_action_pressed("move_up"):
-			scale.x = 0.65
-			scale.y = 1.25
-		else:
-			scale.x = 1.0
-			scale.y = 1.0
 	return
