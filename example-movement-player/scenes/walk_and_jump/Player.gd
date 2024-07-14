@@ -1,10 +1,9 @@
 extends CharacterBody2D
 
-var is_falling: bool = false
 var is_on_wall: bool = false
 var is_reseting: bool = false
 
-const FALL_TILT_SPEED: float = 25.0
+const FALL_TILT_SPEED: float = 250.0
 const WALK_SPEED: float = 250.0
 const FRICTION: float = 20.0
 const JUMPFORCE: float = -800.0
@@ -17,82 +16,77 @@ func _ready() -> void:
 	$PlayerAnimation.play("PlayerColorAnimation")
 	#GRAVITY = DEFAULT_GRAVITY
 	GRAVITY = 980
-	is_falling = not is_on_floor()
+	self.safe_margin = 2.0
+	self.slide_on_ceiling = true
+	print(Input.get_joy_info(Input.get_connected_joypads()[0]))
 	return
 
 
 func _physics_process(delta) -> void:
+	var collision_info = ""
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		collision_info = "Collided with: %s" % collision.get_collider().name
+	
 	$PlayerCamera/PlayerPositionLabel.text = (
 		"""Position: (%0.2f, %0.2f)
-Velocity: (%0.2f, %0.2f)""" % [
+Velocity: (%0.2f, %0.2f)
+%s""" % [
 			position.x,
 			position.y,
 			velocity.x,
 			velocity.y,
+			collision_info,
 		]
 	)
 	
-	is_falling = not is_on_floor()
 	velocity.y += delta * GRAVITY
+	var jump_multiply: float = 1.0
 	
 	if is_on_floor():
 		$PlayerCamera/PlayerPositionLabel.position.y = -85
 		
-		if rotation == 0:
-			is_reseting = false
+		if Input.is_action_pressed("move_down"):
+			$PlayerCollisionShape.scale.x = 1.0
+			$PlayerCollisionShape.scale.y = 0.65
+			jump_multiply = 0.5
+		elif Input.is_action_pressed("move_up"):
+			$PlayerCollisionShape.scale.x = 0.65
+			$PlayerCollisionShape.scale.y = 1.25
+			jump_multiply = 1.5
 		else:
-			pass
-
-		if is_reseting:
-			pass
+			$PlayerCollisionShape.scale.x = 1.0
+			$PlayerCollisionShape.scale.y = 1.0
+		
+		if Input.is_action_pressed("move_left"):
+			velocity.x = -WALK_SPEED
+		elif Input.is_action_pressed("move_right"):
+			velocity.x = WALK_SPEED
 		else:
-			if Input.is_action_pressed("move_down"):
-				$PlayerCollisionShape.scale.x = 1.0
-				$PlayerCollisionShape.scale.y = 0.65
-			elif Input.is_action_pressed("move_up"):
-				$PlayerCollisionShape.scale.x = 0.65
-				$PlayerCollisionShape.scale.y = 1.25
-			else:
-				$PlayerCollisionShape.scale.x = 1.0
-				$PlayerCollisionShape.scale.y = 1.0
-			
-			if Input.is_action_pressed("move_left"):
-				velocity.x = -WALK_SPEED
-			elif Input.is_action_pressed("move_right"):
-				velocity.x = WALK_SPEED
-			else:
-				velocity.x = 0
+			velocity.x = 0
 			
 		if Input.is_action_pressed("jump"):
-			if rotation == 0:
-				velocity.y += JUMPFORCE
-				if Input.is_action_pressed("move_up"):
-					velocity.y *= 1.5  # Super Jump
-				elif Input.is_action_pressed("move_down"):
-					velocity.y *= 0.5  # Crouch Jump
-				else:
-					pass
-			else:
-				is_reseting = true
-				velocity.x = 0.0
-				velocity.y = 0.0
-				rotation = 0.0
+			velocity.y = (velocity.y + JUMPFORCE) * jump_multiply
+		else:
+			pass
+	elif is_on_wall_only():
+		var wall_normal = self.get_wall_normal()
+		
+		if Input.is_action_pressed("jump"):
+			velocity.y = (velocity.y + JUMPFORCE) * jump_multiply
+			velocity.x = -wall_normal.x * (velocity.x + JUMPFORCE/2) * jump_multiply
 		else:
 			pass
 	else:
 		$PlayerCamera/PlayerPositionLabel.position.y = 0.0
-		
-		if is_reseting:
-			pass
+		if Input.is_action_pressed("move_left"):
+			velocity.x -= FALL_TILT_SPEED * delta
+			#rotate(-PI/128)
+		elif Input.is_action_pressed("move_right"):
+			velocity.x += FALL_TILT_SPEED * delta
+			#rotate(PI/128)
 		else:
-			if Input.is_action_pressed("move_left"):
-				velocity.x -= FALL_TILT_SPEED * delta
-				rotate(-PI/128)
-			elif Input.is_action_pressed("move_right"):
-				velocity.x += FALL_TILT_SPEED * delta
-				rotate(PI/128)
-			else:
-				velocity.x = 0
+			velocity.x = 0
 
 	# "move_and_slide" already takes delta time into account.
 	move_and_slide()
