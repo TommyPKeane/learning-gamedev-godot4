@@ -2,25 +2,31 @@ extends Node2D
 
 var screen_size # Size of the game window.
 const PLAYER_STARTING_POS: Vector2 = Vector2(150, 500)
+var PauseMenu = preload("res://scenes/walk_and_jump/support_scenes/game_menu.tscn")
+var pause_menu: Object = PauseMenu.instantiate()
 
 func start(pos: Vector2) -> void:
-	# SDL Gamepads:
-	# - https://github.com/mdqinc/SDL_GameControllerDB/blob/master/gamecontrollerdb.txt
-	Input.add_joy_mapping(
-		"03000000c82d00000160000001000000,8BitDo SN30 Pro,a:b1,b:b0,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,leftshoulder:b6,leftstick:b13,lefttrigger:a4,leftx:a0,lefty:a1,rightshoulder:b7,rightstick:b14,righttrigger:a5,rightx:a2,righty:a3,start:b11,x:b4,y:b3,platform:Mac OS X",
-		true,
-	)
-	Input.add_joy_mapping(
-		"03000000c82d00000161000000010000,8BitDo SN30 Pro,a:b1,b:b0,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b2,leftshoulder:b6,leftstick:b13,lefttrigger:b8,leftx:a0,lefty:a1,rightshoulder:b7,rightstick:b14,righttrigger:b9,rightx:a2,righty:a5,start:b11,x:b4,y:b3,platform:Mac OS X",
-		true,
+	SDLGameControllerUtils.parse_and_load_sdl_gamecontrolldb_txt(
+		SDLGameControllerUtils.get_default_filename_by_os()
 	)
 	$Player.position = pos
-	show()
 	$Player/PlayerCollisionShape.disabled = false
+	
+	var found_controller_dev_indices: Array[int] = Input.get_connected_joypads()
+	
+	# Debug Printing
+	for dev_index in found_controller_dev_indices:
+		print(Input.get_joy_guid(dev_index))
+		print(Input.get_joy_info(dev_index))
+		print(Input.get_joy_name(dev_index))
+	
+	show()
 	return
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	self.process_mode = Node.PROCESS_MODE_PAUSABLE
+	get_tree().root.add_child.call_deferred(pause_menu)
 	screen_size = get_viewport_rect().size
 	start(PLAYER_STARTING_POS)
 	$Player/PlayerCamera.enabled = true
@@ -36,5 +42,9 @@ func check_if_outofbounds_and_reset() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta) -> void:
+	print("WalkAndRun | Processing...")
+	if Input.is_action_just_released("pause"):
+		get_tree().paused = true
+		print("PAUSED")
 	check_if_outofbounds_and_reset()
 	return
