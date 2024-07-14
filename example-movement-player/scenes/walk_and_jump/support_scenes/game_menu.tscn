@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwdk6b82uyryt"]
+
+[ext_resource type="Script" path="res://scenes/walk_and_jump/support_scenes/game_menu.gd" id="1_nrg4c"]
+[ext_resource type="Script" path="res://scenes/walk_and_jump/support_scenes/game_menu_quit_button.gd" id="2_au8so"]
+[ext_resource type="Script" path="res://scenes/walk_and_jump/support_scenes/game_menu_restart_button.gd" id="2_lwcyw"]
+
+[node name="GameMenu" type="Node2D"]
+script = ExtResource("1_nrg4c")
+
+[node name="PauseMenuPopUp" type="PopupMenu" parent="."]
+visible = true
+
+[node name="PauseButtonsContainer" type="VBoxContainer" parent="PauseMenuPopUp"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RestartButton" type="Button" parent="PauseMenuPopUp/PauseButtonsContainer"]
+layout_mode = 2
+script = ExtResource("2_lwcyw")
+
+[node name="QuitButton" type="Button" parent="PauseMenuPopUp/PauseButtonsContainer"]
+layout_mode = 2
+script = ExtResource("2_au8so")
