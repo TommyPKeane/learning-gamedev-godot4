@@ -57,3 +57,4 @@ The interactions here are only between platforms (walls, floors, boxes, _etc._) 
 ## References
 
 - `CharacterBody2D` Reference Example: https://docs.godotengine.org/en/stable/tutorials/physics/using_character_body_2d.html
+- SDL GamePad "Joy" (Joystick / Controller) Mappings Source: https://github.com/mdqinc/SDL_GameControllerDB
