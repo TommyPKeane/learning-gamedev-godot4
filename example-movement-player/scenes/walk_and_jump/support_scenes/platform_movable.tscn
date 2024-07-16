@@ -1,0 +1,99 @@
+[gd_scene load_steps=7 format=3 uid="uid://c52i23e1ynr03"]
+
+[ext_resource type="Script" path="res://scenes/walk_and_jump/support_scenes/platform_movable.gd" id="1_rnu1q"]
+
+[sub_resource type="Animation" id="Animation_pes5h"]
+resource_name = "move_pingpong"
+length = 10.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlatformMotionPathFollow:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_t1fy8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlatformMotionPathFollow:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_b5qwh"]
+resource_name = "move_loop"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlatformMotionPathFollow:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aecop"]
+_data = {
+"RESET": SubResource("Animation_t1fy8"),
+"move_loop": SubResource("Animation_b5qwh"),
+"move_pingpong": SubResource("Animation_pes5h")
+}
+
+[sub_resource type="Curve2D" id="Curve2D_htgdw"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 2, -73, 0, 0, 0, 0, 242, -267, 0, 0, 0, 0, 6, -182, 0, 0, 0, 0, 72, -356, 0, 0, 0, 0, -138, -354, 0, 0, 0, 0, -135, -17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 9
+
+[node name="PlatformMovable" type="Node2D"]
+script = ExtResource("1_rnu1q")
+
+[node name="PlatformAnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../PlatformMotionPath")
+libraries = {
+"": SubResource("AnimationLibrary_aecop")
+}
+
+[node name="PlatformMotionPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_htgdw")
+
+[node name="PlatformMotionPathFollow" type="PathFollow2D" parent="PlatformMotionPath"]
+position = Vector2(0, -1)
+rotates = false
+
+[node name="RemoteTransformConnectorPlatform" type="RemoteTransform2D" parent="PlatformMotionPath/PlatformMotionPathFollow"]
+remote_path = NodePath("../../../PlatformAnimationBody")
+update_rotation = false
+update_scale = false
+
+[node name="PlatformAnimationBody" type="AnimatableBody2D" parent="."]
+position = Vector2(0, -1)
+
+[node name="PlatformCollisionPolygon" type="CollisionPolygon2D" parent="PlatformAnimationBody"]
+polygon = PackedVector2Array(50, -10, 65, 10, -65, 10, -50, -10)
+one_way_collision = true
+one_way_collision_margin = 5.0
+
+[node name="PlatformPolygon" type="Polygon2D" parent="PlatformAnimationBody"]
+polygon = PackedVector2Array(50, -10, 65, 10, 65, 25, -65, 25, -65, 10, -50, -10)
+
+[node name="DebugCamera" type="Camera2D" parent="."]
