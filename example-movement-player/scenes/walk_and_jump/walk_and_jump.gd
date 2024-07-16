@@ -26,9 +26,9 @@ func start(pos: Vector2) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.process_mode = Node.PROCESS_MODE_PAUSABLE
-	get_tree().root.add_child.call_deferred(pause_menu)
+	#get_tree().root.add_child.call_deferred(pause_menu)
 	screen_size = get_viewport_rect().size
-	start(PLAYER_STARTING_POS)
+	start($Player.position)
 	$Player/PlayerCamera.enabled = true
 	$Player/PlayerCamera.make_current()
 	return
@@ -42,9 +42,9 @@ func check_if_outofbounds_and_reset() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta) -> void:
-	print("WalkAndRun | Processing...")
-	if Input.is_action_just_released("pause"):
-		get_tree().paused = true
-		print("PAUSED")
+	#print("WalkAndRun | Processing...")
+	#if Input.is_action_just_released("pause"):
+		#get_tree().paused = true
+		#print("PAUSED")
 	check_if_outofbounds_and_reset()
 	return
